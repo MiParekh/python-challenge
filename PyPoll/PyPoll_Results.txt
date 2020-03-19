@@ -1,0 +1,10 @@
+Election Data Analysis - Mitesh Parekh
+----------------------------------------------
+Total Votes: 3521001
+----------------------------------------------
+Candidate Khan received 2218231 votes (63.0%)
+Candidate Correy received 704200 votes (20.0%)
+Candidate Li received 492940 votes (14.000000000000002%)
+Candidate OTooley received 105630 votes (3.0%)
+----------------------------------------------
+The Winner of the election is...(drum roll).... Khan! Congratulations!!
