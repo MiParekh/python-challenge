@@ -1,108 +1,75 @@
-#PyPoll Homework Assignment Mitesh Parekh
+#PyBank Homework Assignment - Mitesh Parekh
 
-#Import Election Data File
+#Import Budget Data File
 import os
 import csv
 
-#Data File Name and Path to Open: C:\Users\mites\OneDrive\Documents\RU Data Science Bootcamp\python-challenge\PyPoll\election_data.csv
+#Data File Name and Path to Open: C:\Users\mites\OneDrive\Documents\RU Data Science Bootcamp\python-challenge\PyBank\budget_data.csv
 #Read CSV File, identify comma delimiter, and print csvreader
 
-csvpath = os.path.join('OneDrive', 'Documents','RU Data Science Bootcamp', 'python-challenge', 'PyPoll' ,'election_data.csv')
+csvpath = "budget_data.csv"
 with open(csvpath) as csvfile:
     csvreader = csv.reader(csvfile, delimiter= ',')
     print(csvreader)
 
-#Read Header Row and check print headers for confirmation (print commented out)
+#Read Header Row and check print headers for confirmation
     csv_header = next(csvreader)
-    #print(f"CSV Header: {csv_header}")
-
-#Determine Initial Variable Values
-    Total_Votes = 0
-    candidates = []
-    candidate_Khan = []
-    votes_Khan = 0
-    candidate_Correy = []
-    votes_Correy = 0
-    candidate_Li = []
-    votes_Li = 0
-    candidate_OTooley = []
-    votes_OTooley = 0
-
-#Calculate Total Votes and check value via print (Commented Out)
-
-    for row in csvreader:
-            Total_Votes = Total_Votes + 1
-            candidates.append(row[2])          
-    #print(Total_Votes)
-
-#Counting Votes for each candidate in Candidates list and checking values via print (Commented Out)
-    for candidate in candidates:
-        if candidate == "Khan":
-            candidate_Khan.append(candidates)
-            votes_Khan = len(candidate_Khan)
-        elif candidate == "Correy":
-            candidate_Correy.append(candidates)
-            votes_Correy = len(candidate_Correy)
-        elif candidate == "Li":
-            candidate_Li.append(candidates)
-            votes_Li = len(candidate_Li)
-        else :
-            candidate_OTooley.append(candidates)
-            votes_OTooley = len(candidate_OTooley)
-    #print(votes_Khan)
-    #print(votes_Correy)
-    #print(votes_Li)
-    #print(votes_OTooley)
-
-# Determine the Winning Candiate and print winner (commented out)
-    if votes_Khan > max(votes_Correy, votes_Li, votes_OTooley):
-        election_winner = "Khan"
-    elif votes_Correy > max(votes_Khan, votes_Li, votes_OTooley):
-        election_winner = "Correy"
-    elif votes_Li > max(votes_Khan, votes_Correy, votes_OTooley):
-        election_winner = "Li"
-    else:
-        election_winner = "OTooley"
-    #print(election_winner)
-
-#Calculate percentage of votes for each candidate and check via print (Commented Out)
-
-    percentage_khan = round((votes_Khan / Total_Votes),3)*100
-    #print(percentage_khan)
-    percentage_correy = round((votes_Correy / Total_Votes),3)*100
-    #print(percentage_correy)
-    percentage_li = round((votes_Li / Total_Votes),3)*100
-    #print(percentage_li)
-    percentage_otooley = round((votes_OTooley / Total_Votes),3)*100
-    #print(percentage_otooley)
     
+
+# Create initial empty sets
+    month = []
+    monthly_revenue_chg = []
+    avg_monthly_revenue_chg = []
+    total_revenue = 0
+    total_revenue_change = 0
+    prev_month_rev = 0
+
+#Calculate Number of Months, and Sum Up total Profit or Loss in Budget Datafile
+    for row in csvreader:
+        month.append(row[0])
+        total_revenue = total_revenue + int(row[1])
+        revenue_change = int(row[1]) - prev_month_rev
+        prev_month_rev = int(row[1])
+        monthly_revenue_chg.append(revenue_change)
+ 
+
+
+# Calculate average monthly change in budget datafile: Total Revenue Change / # Months 
+    average_monthly_chg = round((sum(monthly_revenue_chg) - monthly_revenue_chg[0]) / (len(month) -1 ),2)
+    
+    
+# Determine the greatest monthly profit increase amount, and identify month
+    largest_increase = max(monthly_revenue_chg)
+    
+    lg_inc_mnth = monthly_revenue_chg.index(largest_increase)
+    largest_increase_month = month[lg_inc_mnth]
+    
+
+# Determine the greatest monthly decrease change amount, and identify month
+    largest_decrease = min(monthly_revenue_chg)
+    
+    lg_dec_mnth = monthly_revenue_chg.index(largest_decrease)
+    largest_decrease_month = month[lg_dec_mnth]
+   
+  
 # Print Results on Terminal
 
-print("Election Data Analysis - Mitesh Parekh")
+print("Budget Data Financial Analysis - Mitesh Parekh")
 print("----------------------------------------------")
-print("Total Votes: " + str(Total_Votes))
-print("----------------------------------------------")
-print("Election Results by Candidate")
-print("----------------------------------------------")
-print("Candidate Khan received " + str(votes_Khan) + " votes (" + str(percentage_khan) + "%)")
-print("Candidate Correy received " + str(votes_Correy) + " votes (" + str(percentage_correy) + "%)")
-print("Candidate Li received " + str(votes_Li) + " votes (" + str(percentage_li) + "%)")
-print("Candidate OTooley received " + str(votes_OTooley) + " votes (" + str(percentage_otooley) + "%)")
-print("----------------------------------------------")
-print("The Winner of the election is...(drum roll).... " + election_winner +"! Congratulations!!")
+print("Total Months: " + str(len(month)))
+print("Total Profit: $" + str(total_revenue))
+print("Average Change: $" + str(average_monthly_chg))
+print("Greatest Increase in Profits: " + largest_increase_month + " ($" + str(largest_increase) +")")
+print("Greatest Decrease in Profits: " + largest_decrease_month + " ($" + str(largest_decrease) +")")
 
 #Write to a Text File
-#Path to Write and File Name: C:\Users\mites\OneDrive\Documents\RU Data Science Bootcamp\python-challenge\PyPoll\PyPoll_Results.txt
-
-txtpath = os.path.join ('OneDrive', 'Documents','RU Data Science Bootcamp', 'python-challenge', 'PyPoll','PyPoll_Results.txt')
+#Path to Write and File Name: C:\Users\mites\OneDrive\Documents\RU Data Science Bootcamp\python-challenge\PyBank\Pybank_Results.txt
+txtpath = os.path.join ('OneDrive', 'Documents','RU Data Science Bootcamp', 'python-challenge', 'Pybank','Pybank_Results.txt')
 with open(txtpath, "w") as file:
-         file.write ("Election Data Analysis - Mitesh Parekh"+'\n')
-         file.write ("----------------------------------------------"+'\n')
-         file.write ("Total Votes: " + str(Total_Votes)+'\n')
-         file.write ("----------------------------------------------"+'\n')
-         file.write ("Candidate Khan received " + str(votes_Khan) + " votes (" + str(percentage_khan) + "%)"+'\n')
-         file.write ("Candidate Correy received " + str(votes_Correy) + " votes (" + str(percentage_correy) + "%)"+'\n')
-         file.write ("Candidate Li received " + str(votes_Li) + " votes (" + str(percentage_li) + "%)"+'\n')
-         file.write ("Candidate OTooley received " + str(votes_OTooley) + " votes (" + str(percentage_otooley) + "%)"+'\n')
-         file.write ("----------------------------------------------"+'\n')
-         file.write ("The Winner of the election is...(drum roll).... " + election_winner +"! Congratulations!!"+'\n')
+        file.write ("Budget Data Financial Analysis - Mitesh Parekh"+'\n')
+        file.write ("----------------------------------------------"+'\n')
+        file.write ("Total Months: " + str(len(month))+'\n')
+        file.write ("Total Profit: $" + str(total_revenue)+'\n')
+        file.write ("Average Change: $" + str(average_monthly_chg)+'\n')
+        file.write ("Greatest Increase in Profits: " + largest_increase_month + " ($" + str(largest_increase) +")"+'\n')
+        file.write ("Greatest Decrease in Profits: " + largest_decrease_month + " ($" + str(largest_decrease) +")"+'\n')
